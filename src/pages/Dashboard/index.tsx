@@ -30,24 +30,15 @@ interface Balance {
 }
 
 const Dashboard: React.FC = () => {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [_transactions, setTransactions] = useState<Transaction[]>([]);
   const [_balance, setBalance] = useState<Balance>({} as Balance);
 
   useEffect(() => {
     async function loadTransactions(): Promise<void> {
       const response = await api.get('/transactions');
-      const { transaction, balance } = response.data;
-      setTransactions(transaction);
+      const { transactions, balance } = response.data;
+      setTransactions(transactions);
       setBalance(balance);
-
-      /*   api.get('/transactions').then(responsex => {
-        const formatedBalance = {
-          income: formatValue(responsex.data.balance.income),
-          outcome: formatValue(responsex.data.balance.outcome),
-          total: formatValue(responsex.data.balance.total),
-        };
-        setBalance(formatedBalance);
-      }); */
     }
 
     loadTransactions();
@@ -95,7 +86,7 @@ const Dashboard: React.FC = () => {
             </thead>
 
             <tbody>
-              {transactions.map(transaction => (
+              {_transactions.map(transaction => (
                 <tr key={transaction.id}>
                   <td className="title">{transaction.title}</td>
                   {transaction.type === 'income' ? (
