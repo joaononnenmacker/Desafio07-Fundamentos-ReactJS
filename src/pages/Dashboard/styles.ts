@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { shade } from 'polished';
 
 interface CardProps {
   total?: boolean;
@@ -81,6 +82,19 @@ export const TableContainer = styled.section`
 
       &.outcome {
         color: #e83f5b;
+      }
+
+      button {
+        background: #f00000;
+        color: #fff;
+        border-radius: 5px;
+        padding: 10px 30px;
+        border: 0;
+        transition: background-color 0.2s;
+
+        &:hover {
+          background: ${shade(0.2, '#b22222')};
+        }
       }
     }
 

@@ -27,6 +27,15 @@ const Import: React.FC = () => {
       uploadedFiles.forEach(file => {
         data.append('file', file.file);
       });
+
+      /* const teste = {
+        title: 'teste',
+        value: 5,
+        type: 'outcome',
+        category: 'ensino',
+      };
+
+      await api.post('/transactions', teste); */
       await api.post('/transactions/import', data);
 
       history.push('/');

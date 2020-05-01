@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import income from '../../assets/income.svg';
 import outcome from '../../assets/outcome.svg';
@@ -32,6 +33,7 @@ interface Balance {
 const Dashboard: React.FC = () => {
   const [_transactions, setTransactions] = useState<Transaction[]>([]);
   const [_balance, setBalance] = useState<Balance>({} as Balance);
+  const history = useHistory();
 
   useEffect(() => {
     async function loadTransactions(): Promise<void> {
@@ -42,7 +44,13 @@ const Dashboard: React.FC = () => {
     }
 
     loadTransactions();
-  }, []);
+  }, [_transactions]);
+
+  async function handleDelete(id: string): Promise<void> {
+    await api.delete(`/transactions/${id}`);
+
+    history.push('/');
+  }
 
   return (
     <>
@@ -99,6 +107,14 @@ const Dashboard: React.FC = () => {
                   )}
                   <td>{transaction.type}</td>
                   <td>{transaction.category.title}</td>
+                  <td className="button">
+                    <button
+                      onClick={() => handleDelete(transaction.id)}
+                      type="button"
+                    >
+                      Excluir
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
